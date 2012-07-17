@@ -23,8 +23,9 @@ module MongoMapper
         end
       end
 
-      def attributes=(attrs={})
-        super(filter_protected_attrs(attrs))
+      def attributes=(attrs={}, guard_protected_attributes = true)
+        attrs = filter_protected_attrs(attrs) if guard_protected_attributes
+        super(attrs, guard_protected_attributes)
       end
 
       def update_attributes(attrs={})

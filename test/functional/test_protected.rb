@@ -79,6 +79,20 @@ class ProtectedTest < Test::Unit::TestCase
       @doc.admin.should be_true
     end
 
+    should "not ignore protected attribute on #attributes=" do
+      @doc.attributes = {:name => 'Ren Hoek', :admin => true}
+      @doc.name.should == 'Ren Hoek'
+      @doc.admin.should be_false
+    end
+
+    context "when guard_protected_attributes param is false" do
+      should "ignore protected attribute on #attributes=" do
+        @doc.send(:attributes=, {:name => 'Ren Hoek', :admin => true}, false)
+        @doc.name.should == 'Ren Hoek'
+        @doc.admin.should be_true
+      end
+    end
+
     should "ignore protected attribute on #update_attributes" do
       @doc.update_attributes(:name => 'Ren Hoek', :admin => true)
       @doc.name.should == 'Ren Hoek'
