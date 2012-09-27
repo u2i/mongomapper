@@ -3,7 +3,7 @@ module MongoMapper
   module Extensions
     module Time
       def to_mongo(value)
-        if value.nil? || value == ''
+        if value.nil? || (value.is_a?(String) && value == '')
           nil
         else
           time_class = ::Time.try(:zone).present? ? ::Time.zone : ::Time
