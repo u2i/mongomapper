@@ -3,6 +3,8 @@ module MongoMapper
   module Extensions
     module Time
       def to_mongo(value)
+        # We need to check the type of value first, because comparing
+        # a Time against a string is expensive in JRUBY due to JRUBY-6915
         if value.nil? || (value.is_a?(String) && value == '')
           nil
         else
